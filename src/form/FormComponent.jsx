@@ -8,28 +8,42 @@ const FormComponent = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [firstNameErr, setFirstNameErr] = useState(false);
     const [lastNameErr, setLastNameErr] = useState(false);
+    const [emailErr, setEmailErr] = useState(false);
+    const [passwordErr, setPasswordErr] = useState(false)
+    const [confirmPasswordErr, setConfirmPasswordErr] = useState(false)
 
     const FormHandler = (e) => {
         e.preventDefault();
 
-        let isValid = true;
 
         if (firstName === '') {
             setFirstNameErr(true);
-            isValid = false;
         }
 
         if (lastName === '') {
             setLastNameErr(true);
-            isValid = false;
         }
 
-        if (!isValid) return;
+        if (email === "") {
+            setEmailErr(true);
 
-        console.log({ firstName, lastName, email, password, confirmPassword });
+        }
+        if (passwordErr !== "") {
+            setPasswordErr(true)
+        }
+
+        if (confirmPasswordErr !== "") {
+            setConfirmPasswordErr(true);
+        }
 
         setFirstName('');
         setLastName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+
+
+        console.log({ firstName, lastName, email, password, confirmPassword });
     };
 
     useEffect(() => {
@@ -44,8 +58,28 @@ const FormComponent = () => {
         }
     }, [lastName]);
 
+    useEffect(() => {
+        if (email !== "") {
+            setEmailErr(false)
+        }
+    }, [email]);
+
+    useEffect(() => {
+        if (passwordErr !== "") {
+            setPasswordErr(false)
+        }
+    }, [password]);
+
+
+    useEffect(() => {
+        if (confirmPasswordErr !== "") {
+            setConfirmPasswordErr(false)
+        }
+    }, [confirmPassword])
+
+
     return (
-        <div className='d-flex justify-content-center align-items-center mt-4 text-center' style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
+        <div className='d-flex justify-content-center align-items-center text-center' style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
             <form onSubmit={FormHandler} style={{ padding: '20px', maxWidth: '400px', width: '100%', backgroundColor: '#ffffff', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}>
                 <h3 className='mb-4' style={{ color: '#333' }}>User Registration</h3>
 
@@ -86,7 +120,7 @@ const FormComponent = () => {
                         placeholder="Enter your Email"
                     />
                 </div>
-
+                {emailErr && <p className='text-danger'>Enter Your Email</p>}
                 <div className='mt-3'>
                     <label style={{ fontWeight: 'bold', color: '#333' }}>Password</label> <br />
                     <input
@@ -98,6 +132,7 @@ const FormComponent = () => {
                         placeholder="Enter your Password"
                     />
                 </div>
+                {passwordErr && <p className='text-danger'>Enter Your password</p>}
 
                 <div className='mt-3'>
                     <label style={{ fontWeight: 'bold', color: '#333' }}>Confirm Password</label> <br />
@@ -110,11 +145,12 @@ const FormComponent = () => {
                         placeholder="Confirm Password"
                     />
                 </div>
+                {confirmPasswordErr && <p className='text-danger'>Put the confirm password</p>}
 
                 <div>
                     <button
                         type='submit'
-                        className='btn btn-success text-white mt-2'
+                        className='btn btn-success text-white mt-3'
                         style={{ width: "100%", padding: '10px', borderRadius: '5px', fontWeight: 'bold' }}
                     >
                         Submit
