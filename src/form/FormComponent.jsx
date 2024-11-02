@@ -15,6 +15,11 @@ const FormComponent = () => {
     const FormHandler = (e) => {
         e.preventDefault();
 
+        if (password === confirmPassword) {
+
+        } else {
+            alert("Password and confirm password don't match")
+        }
 
         if (firstName === '') {
             setFirstNameErr(true);
